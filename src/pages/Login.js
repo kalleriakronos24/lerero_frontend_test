@@ -20,7 +20,7 @@ function Login() {
       password: password
     }
 
-    const data = await axios(`http://localhost:8000/api/v1/auth/sign-in`, {
+    const {data} = await axios(`http://localhost:8000/api/v1/auth/sign-in`, {
       method:'post',
       data: body,
       headers: {
@@ -28,9 +28,13 @@ function Login() {
       } 
     })
 
-    if(data.data.status === 'error') {
+    if(data.status === 'error') {
       window.alert(data.data.message);
     } else {
+      // bad practice, just for practical use in assessment
+      localStorage.setItem('userToken', data.data.token);
+      localStorage.setItem('userId', data.data.user);
+      localStorage.setItem('userRole', data.data.userRole);
       history.replace({
         pathname : '/app/dashboard'
       })
@@ -78,14 +82,14 @@ function Login() {
 
               <hr className="my-8" />
 
-              <Button block layout="outline">
+              {/* <Button block layout="outline">
                 <GithubIcon className="w-4 h-4 mr-2" aria-hidden="true" />
                 Github
               </Button>
               <Button className="mt-4" block layout="outline">
                 <TwitterIcon className="w-4 h-4 mr-2" aria-hidden="true" />
                 Twitter
-              </Button>
+              </Button> */}
 
               <p className="mt-4">
                 <Link
